@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <label for="provider">Provider</label>
+        <select name="" id="selectProvider">
+            <option value=""> choose provider </option>
+            <option value="mtn"> MTN</option>
+            <option value="glo"> GLO </option>
+            <option value="9mobile">9MOBILE </option>
+            <option value="airtel"> AIRTEL </option>
+        </select>
+    </div>
+    <br>
+    <div>
+        <label for="amount"> Amount </label>
+        <select name="" id="select">
+            <option value=""> choose amount </option>
+            <option value="100"> 100 </option>
+            <option value="200"> 200 </option>
+            <option value="500"> 500</option>
+            <option value="1000"> 1000</option>
+        </select>
+    </div>
+    <br>
+    <button onclick="generatePin()">generate pin </button>
+
+    <p>pin : <span id="forPin"> </span></p>
+
+
+    <div>
+        <input type="text" value="*311*pin#" placeholder="load card here" id="card">
+        <button onclick="loadCard()">load card</button>
+    </div>
+
+
+</body>
+
+</html>
+<script>
+    let database = []
+    let selectProvider = document.getElementById('selectProvider')
+    let selectAmount = document.getElementById('select')
+    let result = document.getElementById('forPin')
+    let card = document.getElementById('card')
+
+    // 23456789009
+    function generatePin() {
+        if (selectProvider.value === "" || selectAmount.value === "") {
+            alert('All fields are mandatory')
+        }
+        else {
+            let pin = ''
+            for (let index = 0; index < 12; index++) {
+                pin = pin + Math.floor(Math.random() * 10) // 0 - 9
+                // pin += Math.floor(Math.random() * 10)
+            }
+
+            console.log(pin, pin.length);
+            result.innerHTML = pin
+
+         
+
+        }
+    }
+    function loadCard() {
+        console.log(result.innerHTML);
+        
+        if (!result.innerHTML.trim()) {
+            alert('Please Generate a Pin')
+            return
+        }
+
+        if (card.value.trim() === '') {
+            alert('Input cannot be empty')
+        } else if (!card.value.trim().startsWith('*311*') || !card.value.trim().endsWith('#') || card.value.trim().length != 18) {
+            alert('Invalid format')
+        } else if (card.value.trim() !== `*311*${result.textContent}#`) {
+            alert('Invalid Card');
+        } else {
+            alert(`YOU JUST SUCCESSFULLY RECHARGED ${selectProvider.value} of ${selectAmount.value}`)
+        }
+    }
+
+
+
+
+
+</script>
