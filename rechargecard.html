@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        table,
+        thead,
+        tbody,
+        th,
+        tr,
+        td {
+            border: 1px solid green;
+            border-collapse: collapse;
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -40,11 +52,32 @@
         <button onclick="loadCard()">load card</button>
     </div>
 
+    <br>
+    <br>
+
+    <table>
+        <thead>
+            <th> s/n </th>
+            <th> provider </th>
+            <th> amount </th>
+            <th> pin</th>
+            <th> isloaded </th>
+
+        </thead>
+        <tbody id="tbody">
+
+
+
+
+        </tbody>
+    </table>
+
 
 </body>
 
 </html>
 <script>
+  
     let database = []
     let selectProvider = document.getElementById('selectProvider')
     let selectAmount = document.getElementById('select')
@@ -66,31 +99,128 @@
             console.log(pin, pin.length);
             result.innerHTML = pin
 
-         
+            let cardObj = {
+                provider: selectProvider.value,
+                amount: selectAmount.value,
+                pin: pin,
+                isUsed: false
+            }
 
+            database.push(cardObj)
+            console.log(database);
+            displayTable()
         }
     }
     function loadCard() {
-        console.log(result.innerHTML);
-        
-        if (!result.innerHTML.trim()) {
-            alert('Please Generate a Pin')
-            return
+        let cardPin = card.value.trim().slice(5, 17)
+        console.log(cardPin);
+
+
+        let isValidCard = null
+
+        for (let index = 0; index < database.length; index++) {
+            if (database[index].pin === cardPin) {
+                isValidCard = database[index]
+                break
+            }
         }
+
 
         if (card.value.trim() === '') {
             alert('Input cannot be empty')
         } else if (!card.value.trim().startsWith('*311*') || !card.value.trim().endsWith('#') || card.value.trim().length != 18) {
             alert('Invalid format')
-        } else if (card.value.trim() !== `*311*${result.textContent}#`) {
+        } else if (!isValidCard) {
             alert('Invalid Card');
+        } else if (isValidCard.isUsed) {
+            alert('this card has already been used')
         } else {
-            alert(`YOU JUST SUCCESSFULLY RECHARGED ${selectProvider.value} of ${selectAmount.value}`)
+            isValidCard.isUsed = true
+            alert(`YOU JUST SUCCESSFULLY RECHARGED ${isValidCard.provider} of ${isValidCard.amount}`)
+            displayTable()
+        }
+    }
+
+
+    function displayTable() {
+        tbody.innerHTML = ''
+        for (let index = 0; index < database.length; index++) {
+            tbody.innerHTML += `<tr>
+                <td> ${index + 1} </td>
+                <td> ${database[index].provider} </td>
+                <td> ${database[index].amount} </td>
+                <td>${database[index].pin}</td>
+                <td> ${database[index].isUsed} </td>
+            </tr>`
         }
     }
 
 
 
-
-
 </script>
+
+<!-- <script>
+
+    let obj = {
+        name: 'david',
+        class: 'ss2'
+    }
+
+    obj.class = 'ss3'
+
+    obj['class'] = 'ss3'
+
+
+
+
+
+</script> -->
+
+<!-- <script>
+
+    let data = [{
+        pin: '45678909878',
+        amount: 200,
+        isUsed: false,
+        provider: 'MTN'
+
+    },
+
+    {
+        pin: '234567890987',
+        amount: 1000,
+        isUsed: false,
+        provider: 'GLO'
+
+    } , 
+ {
+        pin: '56789876567',
+        amount: 1000,
+        isUsed: false,
+        provider: 'airtel'
+
+    }]
+
+
+
+     let isValidCard =  {
+        pin: '56789876567',
+        amount: 1000,
+        isUsed: false,
+        provider: 'airtel'
+
+    }
+
+    for (let index = 0; index < 100; index++) {
+         if (56789876567 === 56789876567) {
+                isValidCard = database[index]
+                break
+            }
+        
+    } -->
+
+
+
+
+
+<!-- </script> -->

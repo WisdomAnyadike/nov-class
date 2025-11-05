@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="genHexaColor()"> generate </button>
+</body>
+
+</html>
+<script>
+    // #ee56gh
+    function genHexaColor(params) {
+        let hexaColor = ''
+        for (let index = 0; index < 6; index++) {
+            let random = Math.floor(Math.random() * 10) //0-9
+            hexaColor += random
+        }
+
+
+        console.log(hexaColor);
+    }
+
+
+</script>
