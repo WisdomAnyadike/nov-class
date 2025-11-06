@@ -55,6 +55,7 @@
     <br>
     <br>
 
+    <button>all cards </button> <button>used cards </button> <button> unused cards </button>
     <table>
         <thead>
             <th> s/n </th>
@@ -77,7 +78,7 @@
 
 </html>
 <script>
-  
+
     let database = []
     let selectProvider = document.getElementById('selectProvider')
     let selectAmount = document.getElementById('select')
@@ -117,7 +118,6 @@
 
 
         let isValidCard = null
-
         for (let index = 0; index < database.length; index++) {
             if (database[index].pin === cardPin) {
                 isValidCard = database[index]

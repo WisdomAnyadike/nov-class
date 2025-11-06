@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    // forEach, map , find , findIndex, filter, every , some , reduce
+
+    let arr = [2, 3, 4, 5, 6, 7]
+    // returns umdefined- just a regular loop
+    arr.forEach(function (num, index) {
+        console.log(num);
+
+    })
+
+    // map returns an array - youn can use this to build out another array
+    console.log(arr.map(function (num, index, arr) {
+        console.log(num);
+        return num * 2
+    }));
+
+    // find - returns a memeber of the array we are looping through or undefined if we dont find anything
+    let fruits = ['watermelon', 'orange', 5, 'cherry', 'grape']
+
+
+    let foundFruit = fruits.find(function (fruit, index, arr) {
+        return fruit.length < 2
+    });
+
+    console.log(foundFruit);
+
+    //findIndex - same as find in some way , just that it returns the index of what youre looking for or if it doesnt find it , it returns -1
+
+    let foundFruitIndex = fruits.findIndex(function (fruit, index, arr) {
+        return fruit === 'orang'
+    });
+
+    console.log(foundFruitIndex);
+
+    // filter
+
+    let filteredFruits = fruits.filter(function (fruit, i, arr) {
+        return fruit.length === 20
+
+    })
+
+    console.log(filteredFruits);
+
+    // some 
+
+    let isAtLeastOneFruitANumber = fruits.some(function (fruit, i, arr) {
+        return typeof fruit === "number"
+
+    })
+
+    console.log(isAtLeastOneFruitANumber);
+
+    //every
+    let evenNumbers = [2, 4, 6, 8, 10 , 12, 14]
+
+    let isEveryMemberofArrEven = evenNumbers.every(function (num, i, arr) {
+        return num % 2 == 0
+    })
+
+    console.log(isEveryMemberofArrEven);
+    
+
+
+
+    // for (let index = 0; index < 6; index++) {
+    //     console.log(arr[index], index, arr);
+
+
+    // }
+
+
+    // let arr1 = []
+    // let arr2 = new Array()
+
+    // let Array = {
+    //     forEach: function (params) {
+    //         console.log('i am foreach');
+
+    //     }
+    // }
+
+    // console.log(typeof (arr1));
+
+
+    function hold5() {
+
+    }
+
+    console.log(hold5());
+
+
+</script>

@@ -15,14 +15,14 @@
 <script>
     // #ee56gh
     function genHexaColor(params) {
-        let hexaColor = ''
+        let alphaNumerivVals = ['a', 'b', 'c', 'd', 'e', 0, 1, 2, 3, 4, 5]
+        let hexaColor = '#'
         for (let index = 0; index < 6; index++) {
-            let random = Math.floor(Math.random() * 10) //0-9
-            hexaColor += random
+            let random = Math.floor(Math.random() * alphaNumerivVals.length) // 0-10 2
+            hexaColor += alphaNumerivVals[random]
         }
-
-
         console.log(hexaColor);
+        document.body.style.backgroundColor = hexaColor
     }
 
 
