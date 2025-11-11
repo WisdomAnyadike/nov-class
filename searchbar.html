@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="searchValue" oninput="search()">
+
+    <div id="previewProducts">
+
+
+    </div>
+
+</body>
+
+</html>
+<script>
+    let productsDiv = document.getElementById('previewProducts')
+    let productsArr = ['rice', 'beans', 'garri', 'efo']
+
+
+    function displayProducts(params) {
+        // productsDiv.innerHTML = `<p>` + productsArr.join('<p/>')
+        productsArr.forEach((product, index, arr) => {
+            productsDiv.innerHTML += `<p> ${product} </p>`
+        })
+    }
+
+    displayProducts()
+
+
+
+    function search() {
+
+        let searchValue = document.getElementById('searchValue').value.trim().replaceAll(' ', '')  // 'rice'
+        // let isEmpty = true
+
+        let filteredProducts = productsArr.filter((product, i, arr) => {
+            return product.includes(searchValue)
+        })
+
+        productsDiv.innerHTML = ''
+
+        if (filteredProducts.length === 0) {
+            productsDiv.innerHTML = 'product doesnt exist'
+        } else {
+            filteredProducts.map((product, index, arr) => {
+                productsDiv.innerHTML += `<p> ${product} </p>`
+                // isEmpty = false
+            })
+        }
+
+
+        // let string = 'hello'
+        // string.split('')
+
+        // if (isEmpty || !searchValue) {
+        //     productsDiv.innerHTML = 'product doesnt exist'
+        // }
+    }
+
+
+
+</script>

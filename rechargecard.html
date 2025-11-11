@@ -55,7 +55,10 @@
     <br>
     <br>
 
-    <button>all cards </button> <button>used cards </button> <button> unused cards </button>
+    <button onclick="displayTable(database)">all cards </button> <button onclick="displayUsedCards()">used cards
+    </button>
+    <button onclick="displayUnUsedCards()"> unused cards </button>
+
     <table>
         <thead>
             <th> s/n </th>
@@ -109,7 +112,7 @@
 
             database.push(cardObj)
             console.log(database);
-            displayTable()
+            displayTable(database)
         }
     }
     function loadCard() {
@@ -137,23 +140,51 @@
         } else {
             isValidCard.isUsed = true
             alert(`YOU JUST SUCCESSFULLY RECHARGED ${isValidCard.provider} of ${isValidCard.amount}`)
-            displayTable()
+            displayTable(database)
         }
     }
 
+    function displayUsedCards() {
+        let filteredUserCards = database.filter((cardObj, i) => {
+            return cardObj.isUsed === true
+        })
+        displayTable(filteredUserCards)
+    }
 
-    function displayTable() {
+    function displayUnUsedCards() {
+        let filteredUnUsedCards = database.filter((cardObj, i) => {
+            return cardObj.isUsed === false
+        })
+
+        displayTable(filteredUnUsedCards)
+    }
+
+    function displayTable(table) {
         tbody.innerHTML = ''
-        for (let index = 0; index < database.length; index++) {
+        // for (let index = 0; index < table.length; index++) {
+        //     tbody.innerHTML += `<tr>
+        //         <td> ${index + 1} </td>
+        //         <td> ${table[index].provider} </td>
+        //         <td> ${table[index].amount} </td>
+        //         <td>${table[index].pin}</td>
+        //         <td> ${table[index].isUsed} </td>
+        //     </tr>`
+        // }
+
+        table.forEach((cardObj, i, arr) => {
             tbody.innerHTML += `<tr>
-                <td> ${index + 1} </td>
-                <td> ${database[index].provider} </td>
-                <td> ${database[index].amount} </td>
-                <td>${database[index].pin}</td>
-                <td> ${database[index].isUsed} </td>
+                <td> ${i + 1} </td>
+                <td> ${cardObj.provider} </td>
+                <td> ${cardObj.amount} </td>
+                <td>${cardObj.pin}</td>
+                <td> ${cardObj.isUsed} </td>
             </tr>`
-        }
+        });
+
+
     }
+
+
 
 
 
@@ -224,3 +255,15 @@
 
 
 <!-- </script> -->
+
+<script>
+
+    function multiplyBy2(params) {
+        return params * 2
+    }
+
+    multiplyBy2(5)
+    multiplyBy2(10)
+    multiplyBy2(15)
+
+</script>
