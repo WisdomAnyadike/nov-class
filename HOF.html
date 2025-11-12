@@ -65,14 +65,40 @@
     console.log(isAtLeastOneFruitANumber);
 
     //every
-    let evenNumbers = [2, 4, 6, 8, 10 , 12, 14]
+    let evenNumbers = [2, 4, 6, 8, 10, 12, 14]
 
     let isEveryMemberofArrEven = evenNumbers.every(function (num, i, arr) {
         return num % 2 == 0
     })
 
     console.log(isEveryMemberofArrEven);
-    
+
+    // reduce
+
+    let values = [2, 3, 4, 5, 6, 7, 78]
+
+    let sum = 0
+    for (let index = 0; index < values.length; index++) {
+        sum = sum + values[index]
+    }
+    console.log(sum);
+
+    let totalValue = values.reduce((a, b) => {
+        return a * b
+    }, 1)
+
+    console.log(totalValue);
+
+    let sentence = ['i', 'am', 'a', 'boy']
+
+    let finalSentence = sentence.reduce((a, b, i, arr) => {
+        return a + `${b} `
+    }, '')
+
+    console.log(finalSentence.length, finalSentence);
+
+
+
 
 
 
