@@ -82,7 +82,7 @@
 </html>
 <script>
 
-    let database = []
+    let database = JSON.parse(localStorage.getItem('novRechargeCards')) || []
     let selectProvider = document.getElementById('selectProvider')
     let selectAmount = document.getElementById('select')
     let result = document.getElementById('forPin')
@@ -111,6 +111,7 @@
             }
 
             database.push(cardObj)
+            localStorage.setItem('novRechargeCards', JSON.stringify(database))
             console.log(database);
             displayTable(database)
         }
@@ -139,6 +140,7 @@
             alert('this card has already been used')
         } else {
             isValidCard.isUsed = true
+            localStorage.setItem('novRechargeCards', JSON.stringify(database))
             alert(`YOU JUST SUCCESSFULLY RECHARGED ${isValidCard.provider} of ${isValidCard.amount}`)
             displayTable(database)
         }
@@ -184,86 +186,70 @@
 
     }
 
-
+    displayTable(database)
 
 
 
 </script>
 
-<!-- <script>
-
-    let obj = {
-        name: 'david',
-        class: 'ss2'
-    }
-
-    obj.class = 'ss3'
-
-    obj['class'] = 'ss3'
-
-
-
-
-
-</script> -->
-
-<!-- <script>
-
-    let data = [{
-        pin: '45678909878',
-        amount: 200,
-        isUsed: false,
-        provider: 'MTN'
-
-    },
-
-    {
-        pin: '234567890987',
-        amount: 1000,
-        isUsed: false,
-        provider: 'GLO'
-
-    } , 
- {
-        pin: '56789876567',
-        amount: 1000,
-        isUsed: false,
-        provider: 'airtel'
-
-    }]
-
-
-
-     let isValidCard =  {
-        pin: '56789876567',
-        amount: 1000,
-        isUsed: false,
-        provider: 'airtel'
-
-    }
-
-    for (let index = 0; index < 100; index++) {
-         if (56789876567 === 56789876567) {
-                isValidCard = database[index]
-                break
-            }
-        
-    } -->
-
-
-
-
-
-<!-- </script> -->
-
 <script>
 
-    function multiplyBy2(params) {
-        return params * 2
-    }
+    // if ('nuel' || '') {
+    //     console.log('hmmm');
 
-    multiplyBy2(5)
-    multiplyBy2(10)
-    multiplyBy2(15)
+    // }
+
+    let him = null || ''
+
+
+
+
+
+    // function jump() {
+
+    // }
+
+
+
+    // 'hello'.toLowerCase()
+    // jump()
+
+    // let string = {
+    //     toLowerCase: () => {
+
+    //     }
+    // }
+
+    // 'sdfd'.toLowerCase()
+
+
+    // let justin = {
+    //     talk: () => {
+    //         console.log('hello im justin');
+
+    //     },
+    //     age: 24,
+    //     height: '160m'
+    // }
+
+
+    // justin.talk()
+
+    // local storage methods
+
+    localStorage.setItem('studentName', JSON.stringify([{ name: 'david' }, null]))
+
+    let recievedValue = JSON.parse(localStorage.getItem('studentName'))
+
+    localStorage.removeItem('studentName')
+
+
+
+    console.log(recievedValue);
+
+
+
+
+
 
 </script>
