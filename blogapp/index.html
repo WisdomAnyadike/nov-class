@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <form class="form">
+    <h1>Sign Up</h1>
+    <div class="form-group">
+      <input type="text" placeholder=" " id="namee" required>
+      <label for="name">Name</label>
+      <div class="error">
+        <i class="fas fa-exclamation-circle"></i>
+        Error encountered!
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="email" placeholder=" " id="email">
+      <label for="email">Email</label>
+      <div class="error">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="password" placeholder=" " id="password">
+      <label for="password">Password</label>
+      <div class="error">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="password" placeholder=" " id="confirmpass">
+      <label for="confirm">Confirm</label>
+      <div class="error">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+    </div>
+
+    <input type="button" id="signUpButton" value="Sign Up" onclick="signUp()">
+    <div class="form-bottom">
+      <a href="#">Forgot Password?</a>
+    </div>
+  </form>
+</body>
+
+</html>
+<script>
+  let userDatabase = JSON.parse(localStorage.getItem('usersData')) || []
+
+  // setTimeout(() => {
+  //   console.log('hi');
+  //   changeBackground()
+  // },)
+
+
+  // function changeBackground() {
+  //   document.body.style.background = 'pink'
+  // }
+
+
+  function signUp() {
+    signUpButton.value = 'loading...'
+    let username = namee.value.trim()
+    let userEmail = email.value.trim()
+    let userPassword = password.value.trim()
+    let confirmPassword = confirmpass.value.trim()
+
+    setTimeout(() => {
+      if (!username || !userEmail || !userPassword || !confirmPassword) {
+        alert('all fields are mandatory')
+      } else if (userDatabase.find((userobj) => { return userobj.userEmail === userEmail })) {
+        alert('user already exist')
+      } else if (userPassword !== confirmPassword) {
+        alert('passwords do not match')
+      } else if (userPassword.length < 8) {
+        alert('password must be at least 8 characters')
+      } else {
+        let userObj = {
+          username,
+          userEmail,
+          userPassword
+        }
+        userDatabase.push(userObj)
+        localStorage.setItem('usersData', JSON.stringify(userDatabase))
+        console.log(userDatabase);
+        alert('sign up successful')
+      }
+       signUpButton.value = 'Sign Up'
+    }, 3000);
+
+   
+
+
+  }
+
+
+</script>
+
+<script>
+
+  let inputEmail = 'fola@gmail.com'
+  let arr = [
+    {
+      userName: 'dave',
+      userEmail: 'dave@gmail.com',
+      userPassword: '5672832'
+    },
+    {
+      userName: 'fola',
+      userEmail: 'fola@gmail.com',
+      userPassword: '5672832'
+    },
+    {
+      userName: 'temi',
+      userEmail: 'temi@gmail.com',
+      userPassword: '5672832'
+    }
+
+
+  ]
+
+
+  let foundUser = arr.find((userobj) => {
+    return userobj.userEmail === inputEmail
+  })
+
+
+
+</script>
