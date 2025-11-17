@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>welcome <span id="username"> loading...</span></h1>
+
+</body>
+
+</html>
+<script>
+    let data = JSON.parse(localStorage.getItem('usersData')) || []
+    let currentUsersIndex = localStorage.getItem('currentUsersIndex')
+    let currentUser = data[currentUsersIndex]
+
+    // let arr = ['david', 'daniel']
+    // let myuser = arr[1]
+
+    username.innerHTML = currentUser.username
+
+
+
+</script>

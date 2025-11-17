@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <form class="form">
+        <h1>Log In</h1>
+
+        <div class="form-group">
+            <input type="email" placeholder=" " id="email">
+            <label for="email">Email</label>
+            <div class="error">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="password" placeholder=" " id="password">
+            <label for="password">Password</label>
+            <div class="error">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+        </div>
+
+
+        <input type="button" id="signUpButton" value="log in" onclick="logIn()">
+        <div class="form-bottom">
+            <a href="#">Forgot Password?</a>
+        </div>
+    </form>
+</body>
+
+</html>
+<script>
+    let email = document.getElementById('email')
+    let data = JSON.parse(localStorage.getItem('usersData')) || []
+    let password = document.getElementById('password')
+
+    function logIn() {
+        if (!email.value.trim() || !password.value.trim()) {
+            alert('all fields are mandatory')
+
+        } else {
+            // let foundUser = data.find((params) => {
+
+            // })
+
+            //titilope@gmail.com
+            let foundUser = data.find(user => user.userEmail === email.value.trim())
+            if (!foundUser) {
+                alert('user not found')
+
+            }
+            else {
+                if (foundUser.userPassword !== password.value.trim()) {
+                    alert('incorrect password')
+                }
+                else {
+                    alert('Log in Successful, Welcome')
+                    let foundNum = data.findIndex((userObj, i, arr) => {
+                        return userObj.userEmail === email.value.trim()
+                    })
+                    // console.log(foundNum);
+
+                    localStorage.setItem('currentUsersIndex', foundNum)
+                    location.href = 'dashboard.html'
+                }
+
+            }
+        }
+
+    }
+
+
+
+</script>
