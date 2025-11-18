@@ -68,6 +68,7 @@
 
   function signUp() {
     signUpButton.value = 'loading...'
+    signUpButton.disabled = true
     let username = namee.value.trim()
     let userEmail = email.value.trim()
     let userPassword = password.value.trim()
@@ -94,12 +95,9 @@
         alert('sign up successful')
         location.href = 'login.html'
       }
-       signUpButton.value = 'Sign Up'
+      signUpButton.value = 'Sign Up'
+      signUpButton.disabled = false
     }, 3000);
-
-   
-
-
   }
 
 

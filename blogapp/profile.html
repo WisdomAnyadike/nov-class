@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="dashboard.html" class="navbar-brand">Logo</a>
+        <ul class="nav">
+            <li class="nav-item">
+                <a href="profile.html" class="nav-link">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a href="" class="nav-link">About</a>
+            </li>
+            <li class="nav-item">
+                <button onclick="showLogoutModal()" href="" class="btn btn-danger">Logout</button>
+            </li>
+        </ul>
+    </nav>
+    <div id="modal" class="modalls">
+        <h3>Are you sure you want to logout?</h3>
+        <button onclick="logout()" class="btn">Yes</button>
+        <button onclick="modal.style.display='none'" class="btn">No</button>
+    </div>
+    <div>
+        <h1>welcome to your profile <span id="username"> loading...</span></h1>
+    </div>
+
+
+
+
+
+    <div>
+        <h2>Update your profile picture</h2>
+        <input onchange="pickPicture(event)" id="picture_inputs" type="file" accept="image/jpg, image/png">
+        <img width="200" height="200" id="profile_preview" src="" alt="">
+
+        <button onclick="updateProfilePicture()">Update Profile Picture</button>
+        <!-- <input onchange="changeBg(event)" type="color" name="" id=""> -->
+    </div>
+</body>
+
+</html>
+
+
+<script>
+    let profile_url;
+    function pickPicture(ev) {
+        let file = ev.target.files[0];
+        let reader = new FileReader();
+
+        reader.addEventListener("load", (e) => {
+            profile_url = e.target.result
+            console.log(profile_url);
+            profile_preview.src = profile_url
+        })
+        if (file) {
+            reader.readAsDataURL(file)
+        }
+    }
+
+
+    // function changeBg(anything) {
+    //     console.log(anything);
+
+    //     document.body.style.backgroundColor = anything.target.value
+    // }
+
+
+
+    let data = JSON.parse(localStorage.getItem('usersData')) || []
+    let currentUsersIndex = localStorage.getItem('currentUsersIndex')
+    let currentUser = data[currentUsersIndex]
+    profile_preview.src = currentUser.profile_pix ? currentUser.profile_pix : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_WWS9qIG7ewcmlbMpxnnFyMSv6dHqpVU9lQ&s"
+
+    let modal = document.getElementById("modal");
+    modal.style.display = "none"
+    console.log(currentUser);
+
+    // let arr = ['david', 'daniel']
+    // let myuser = arr[1]
+
+    username.innerHTML = currentUser.username
+
+    function showLogoutModal() {
+        modal.style.display = "block"
+
+    }
+
+    function updateProfilePicture() {
+        console.log(profile_url);
+        if (!profile_url) {
+            alert('please select a picture to upload')
+            return;
+        }
+        // get the current user from the local storage
+        // update the profile picture property of the current user
+        // save the updated user data back to local storage => localStorage.setItem(blabla)
+        // alert the user that the profile picture has been updated successfully
+        // reload the page to reflect the changes
+
+    }
+
+
+
+    function logout() {
+        localStorage.removeItem("currentUsersIndex");
+        location.href = "login.html"
+    }
+</script>
