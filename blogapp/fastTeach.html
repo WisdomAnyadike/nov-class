@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button type="button" id="loader"> click me </button>
+    <h1 id="num"> 10 </h1>
+
+    <p onclick="jump(event)"> gfhdjk</p>
+
+    <img src="" width="200" height="200" id="myImage" alt="">
+    <input type="file" accept=".mp4,.jpg" onchange="pickPicture(event)">
+
+
+</body>
+
+</html>
+<script>
+
+    loader.addEventListener('click', runButton)
+
+
+
+    function runButton(params) {
+        console.log(params);
+
+        loader.innerHTML = 'loading...'
+        loader.disabled = true
+
+        setTimeout(() => {
+            alert('done!')
+            loader.innerHTML = 'click me'
+            loader.disabled = false
+        }, 3000)
+
+    }
+
+
+    function jump(ev) {
+        console.log(ev);
+        ev.target.innerHTML = '<p> hello </p> wow <span> Godly </span>'
+        ev.target.className = 'forDesign'
+        ev.target.firstElementChild.style.color = 'pink'
+
+    }
+
+    function pickPicture(ev) {
+        let file = ev.target.files[0]
+        let reader = new FileReader()
+
+        if (!file) {
+            alert('please attach a file')
+            return
+        }
+
+        reader.readAsDataURL(file)
+        reader.addEventListener('load', (e) => {
+            console.log(e.target.result);
+            myImage.src = e.target.result
+        })
+
+    }
+
+
+
+
+    let timemoutInterval = setInterval(() => {
+        console.log('hmmmmm');
+    }, 4000)
+
+
+    setTimeout(() => {
+        clearInterval(timemoutInterval)
+    }, 8000);
+
+
+    let number = document.getElementById('num') //h1 element
+
+    let decreaser = setInterval(() => {
+        let val = +(number.innerHTML)
+
+        if (val === 0) {
+            alert('timeUp!')
+            clearInterval(decreaser)
+            number.innerHTML = val
+            return
+        }
+        val--
+        number.innerHTML = val
+
+    }, 1000);
+
+
+
+
+
+    function myFunction(params) {
+        console.log(params);
+
+    }
+
+    myFunction('jello')
+    myFunction(35)
+
+
+
+
+
+</script>

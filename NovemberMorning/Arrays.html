@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="inp">
+    <button onclick="clickMe()">click</button>
+    <button onclick="deleteMe()">delete</button>
+    <p id="result"></p>
+    <input id="inp2" type="text">
+    <button onclick="butttonClick()">Click Me</button>
+    <input type="text" id="inputTag">
+    <button onclick="clicks()">clickMe</button>
+
+    <button onclick="theMe()"> Mode </button>
+    <p id="calc"></p>
+</body>
+
+</html>
+<script>
+    // Methods to modify an array
+    // Modifying with index number
+    let arr = [1, 2, 3, 4, 5, 6, 7]
+    console.log(arr);
+    arr[2] = 30
+    console.log(arr);
+
+    // push
+    let pushArr = ['Martin', 'Ekkenne', 'Tolu', 'David']
+    pushArr.push('Ibrahim', 'Dotun')
+    console.log(pushArr);
+
+    function clickMe() {
+        const inp = document.getElementById('inp').value.trim()
+        const result = document.getElementById('result')
+        result.innerHTML = inp
+        console.log(inp);
+        document.getElementById('inp').value = ''
+
+    }
+    function deleteMe() {
+        const inp = document.getElementById('inp').value.trim()
+        const result = document.getElementById('result')
+        result.innerHTML = ''
+        console.log('inp');
+
+    }
+
+    let db = []
+    function butttonClick() {
+        const inp2 = document.getElementById('inp2')
+        db.push(inp2.value.trim())
+        console.log(db);
+
+    }
+    function clicks() {
+        console.log('hello');
+
+        const inputTag = document.getElementById('inputTag').value
+        const calc = document.getElementById('calc')
+        console.log(inputTag);
+        console.log(eval(inputTag));
+        calc.innerHTML = eval(inputTag)
+    }
+
+    function theMe() {
+        const pagebody = document.body
+        console.log(pagebody.style.backgroundColor);
+
+        if (pagebody.style.backgroundColor === '') {
+            pagebody.style.backgroundColor = 'black'
+        } else {
+            pagebody.style.backgroundColor = ''
+        }
+    }
+
+
+
+
+
+</script>
