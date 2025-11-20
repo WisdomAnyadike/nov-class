@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="previewProducts"
+        style="display: flex; align-items: center; justify-content: space-around; flex-wrap: wrap;">
+
+
+
+    </div>
+
+
+
+
+</body>
+
+</html>
+<script>
+    // 1
+    function getProducts(params) {
+        fetch('https://dummyjson.com/products').then((response) => {
+            console.log(response);
+            return response.json()
+        }).then((data) => {
+            console.log(data.products);
+        }).catch((error) => {
+            console.log(error.message);
+        })
+    }
+
+    getProducts()
+
+
+    // 2
+
+    async function getAllProducts(params) {
+        try {
+            let response = await fetch('https://dummyjson.com/products')
+            let data = await response.json()
+            data.products.forEach((productObj, i, arr) => {
+                previewProducts.innerHTML += ` <div class="product-card">
+            <div class="badge">Hot</div>
+            <div class="product-tumb">
+                <img src="${productObj.images[0]}" alt="">
+            </div>
+            <div class="product-details">
+                <span class="product-catagory"> ${productObj.category}</span>
+                <h4><a href="">${productObj.title}</a></h4>
+                <p>${productObj.description}</p>
+                <div class="product-bottom-details">
+                    <div class="product-price"><small> $${productObj.price}</small> $${(productObj.price - ((productObj.discountPercentage / 100) * productObj.price)).toFixed(2)}</div>
+                    <div class="product-links">
+                        <a href=""><i class="fa fa-heart"></i></a>
+                        <a href=""><i class="fa fa-shopping-cart"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+`
+            });
+
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+
+    getAllProducts()
+
+
+
+
+    let newArr = [
+        {
+            name: 'hameen',
+            class: "js"
+        },
+        {
+            name: 'olaide',
+            class: "js"
+        },
+        {
+            name: 'quadri',
+            class: "js"
+        },
+        {
+            name: 'korede',
+            class: "js"
+        }
+
+    ]
+
+    newArr.forEach((user, i, arr) => {
+        console.log(user.name);
+
+    })
+
+    // (10 /100) * 1000 = 100 
+
+
+
+</script>
