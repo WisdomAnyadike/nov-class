@@ -1,0 +1,115 @@
+    :root {
+      --bg: #f3f6fb;
+      --card: #ffffff;
+      --accent: #4f46e5;
+      --muted: #6b7280
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px
+    }
+
+    .form {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06)
+    }
+
+    .form h1 {
+      text-align: center;
+      margin: 0 0 18px;
+      font-size: 22px
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 16px
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 12px;
+      border-radius: 8px;
+      border: 1px solid #e6e9f2;
+      background: transparent;
+      font-size: 15px
+    }
+
+    /* placeholder trick for floating label */
+    .form-group input::placeholder {
+      color: transparent
+    }
+
+    .form-group label {
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      pointer-events: none;
+      color: var(--muted);
+      transition: all .18s ease;
+      font-size: 14px
+    }
+
+    .form-group input:focus+label,
+    .form-group input:not(:placeholder-shown)+label {
+      transform: translateY(-10px);
+      font-size: 12px;
+      background: var(--card);
+      padding: 0 6px;
+      color: var(--accent)
+    }
+
+    .error {
+      display: none;
+      margin-top: 8px;
+      color: #ef4444;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    #signUpButton {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 0;
+      background: linear-gradient(90deg, var(--accent), #8b5cf6);
+      color: white;
+      font-weight: 600;
+      cursor: pointer
+    }
+
+    .form-bottom {
+      margin-top: 12px;
+      text-align: center
+    }
+
+    .form-bottom a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14px
+    }
+
+    @media(max-width:420px) {
+      .form {
+        padding: 20px
+      }
+    }
+
+    
+

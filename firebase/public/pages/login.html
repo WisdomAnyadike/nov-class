@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="../style/style.css">
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-auth-compat.js"></script>
+</head>
+
+<body>
+    <form class="form" id="signupForm" onsubmit="return false">
+        <h1>Login</h1>
+
+        <div class="form-group">
+            <input type="email" placeholder=" " id="email" required>
+            <label for="email">Email</label>
+
+        </div>
+
+        <div class="form-group">
+            <input type="password" placeholder=" " id="password" required>
+            <label for="password">Password</label>
+
+        </div>
+
+
+
+        <input type="button" onclick="login()" id="signUpButton" value="Log In">
+
+        <div class="form-bottom">
+            <a href="#">Forgot Password?</a>
+        </div>
+    </form>
+
+
+</body>
+
+</html>
+<script>
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBT-tIfLubzaOX9q3mxtiSof3slDbX8uFI",
+        authDomain: "novapp-2fd93.firebaseapp.com",
+        projectId: "novapp-2fd93",
+        storageBucket: "novapp-2fd93.firebasestorage.app",
+        messagingSenderId: "32318939482",
+        appId: "1:32318939482:web:ff7bce9d14a938edadd363"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+
+    function login() {
+
+
+
+        if (password.value.trim().length < 8) {
+            alert('password must be at least 8 characters')
+            return
+        }
+
+        signUpButton.value = 'loading...'
+        signUpButton.disabled = true
+
+        firebase.auth().signInWithEmailAndPassword(email.value.trim(), password.value.trim())
+            .then((userCredential) => {
+                // Signed in
+                var user = userCredential.user;
+                alert('login successful')
+                location.href = 'dashboard.html'
+                signUpButton.value = 'Log In'
+                signUpButton.disabled = false
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                alert(errorMessage)
+                signUpButton.value = 'Log In'
+                signUpButton.disabled = false
+            });
+    }
+
+</script>

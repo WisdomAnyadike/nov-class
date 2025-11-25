@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" crossorigin="anonymous">
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-auth-compat.js"></script>
+    <style>
+        :root {
+            --bg: #f3f6fb;
+            --card: #ffffff;
+            --accent: #4f46e5;
+            --muted: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+        }
+
+        body {
+            background: var(--bg);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 230px;
+            background: var(--card);
+            padding: 20px;
+            box-shadow: 2px 0 20px rgba(0, 0, 0, .05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 8px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 15px;
+            transition: .2s;
+        }
+
+        .menu a:hover {
+            background: var(--bg);
+            color: var(--accent)
+        }
+
+        /* Main content */
+        .main {
+            flex: 1;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--card);
+            padding: 14px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .05);
+        }
+
+        .topbar .search input {
+            padding: 10px 12px;
+            border: 1px solid #e6e9f2;
+            border-radius: 8px;
+            width: 220px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .05);
+        }
+
+        .card h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: var(--muted)
+        }
+
+        .card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent)
+        }
+
+        @media(max-width:780px) {
+            .sidebar {
+                display: none
+            }
+
+            body {
+                flex-direction: column
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <aside class="sidebar">
+        <div class="logo">MyDashboard</div>
+        <nav class="menu">
+            <a href="#"><i class="fas fa-home"></i>Home</a>
+            <a href="#"><i class="fas fa-user"></i>Profile</a>
+            <a href="#"><i class="fas fa-cog"></i>Settings</a>
+            <a href="#"><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </nav>
+    </aside>
+
+
+    <main class="main">
+        <div class="topbar">
+            <h2>Welcome <span id="username"> loading.. </span> 👋</h2>
+            <div class="search">
+                <button onclick="logUserOut()">Log Out </button>
+            </div>
+        </div>
+
+        <section class="cards">
+            <div class="card">
+                <h3>Total Users</h3>
+                <div class="value">1,245</div>
+            </div>
+            <div class="card">
+                <h3>Revenue</h3>
+                <div class="value">$7,820</div>
+            </div>
+            <div class="card">
+                <h3>Tasks</h3>
+                <div class="value">32</div>
+            </div>
+            <div class="card">
+                <h3>Messages</h3>
+                <div class="value">18</div>
+            </div>
+        </section>
+    </main>
+
+</body>
+
+</html>
+<script>
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBT-tIfLubzaOX9q3mxtiSof3slDbX8uFI",
+        authDomain: "novapp-2fd93.firebaseapp.com",
+        projectId: "novapp-2fd93",
+        storageBucket: "novapp-2fd93.firebasestorage.app",
+        messagingSenderId: "32318939482",
+        appId: "1:32318939482:web:ff7bce9d14a938edadd363"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+
+    function checkUserAuth(params) {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/v8/firebase.User
+                var uid = user.uid;
+                console.log(user);
+                username.innerHTML = user.displayName
+
+                // ...
+            } else {
+                // alert('unauthorised, please login ')
+                location.href = 'login.html'
+
+                // User is signed out
+                // ...
+            }
+        });
+    }
+
+
+    checkUserAuth()
+
+
+    function logUserOut() {
+        let canUserLogOut = confirm('are you sure?')
+
+        if (canUserLogOut) {
+            firebase.auth().signOut().then(() => {
+                alert('log out successful')
+                location.href = 'login.html'
+            }).catch((error) => {
+                alert(error.message)
+            });
+
+        }
+
+    }
+
+
+
+
+
+
+</script>

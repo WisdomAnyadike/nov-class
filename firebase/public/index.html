@@ -1,0 +1,140 @@
+<!-- File: signup.html (simple) -->
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" crossorigin="anonymous">
+  <link rel="stylesheet" href="./style/style.css">
+  <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-auth-compat.js"></script>
+
+</head>
+
+<body>
+  <form class="form" id="signupForm">
+    <h1>Sign Up</h1>
+
+    <div class="form-group">
+      <input type="text" placeholder=" " id="namee">
+      <label for="name">Name</label>
+
+    </div>
+
+    <div class="form-group">
+      <input type="email" placeholder=" " id="email">
+      <label for="email">Email</label>
+
+    </div>
+
+    <div class="form-group">
+      <input type="password" placeholder=" " id="password">
+      <label for="password">Password</label>
+
+    </div>
+
+    <div class="form-group">
+      <input type="password" placeholder=" " id="confirmpass">
+      <label for="confirmpass">Confirm</label>
+    </div>
+
+    <input type="button" onclick="signUp()" id="signUpButton" value="Sign Up">
+
+
+  </form>
+
+
+</body>
+
+</html>
+<script>
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBT-tIfLubzaOX9q3mxtiSof3slDbX8uFI",
+    authDomain: "novapp-2fd93.firebaseapp.com",
+    projectId: "novapp-2fd93",
+    storageBucket: "novapp-2fd93.firebasestorage.app",
+    messagingSenderId: "32318939482",
+    appId: "1:32318939482:web:ff7bce9d14a938edadd363"
+  };
+
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+  function signUp() {
+    let email = document.getElementById('email').value.trim()
+    let password = document.getElementById('password').value.trim()
+    let username = document.getElementById('namee').value.trim()
+    let confirmPassword = document.getElementById('confirmpass').value.trim()
+
+    if (!email || !password || !confirmPassword || !username) {
+      alert('all fields are mandatory')
+      return
+    }
+
+
+    if (password !== confirmPassword) {
+      alert('passwords must match')
+      return
+    }
+
+    if (password.length < 8) {
+      alert('password must be at least 8 characters')
+      return
+    }
+
+
+
+
+
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+
+        var user = userCredential.user;
+        user.updateProfile({
+          displayName: username
+        }).then(() => {
+          alert('sign up successful')
+          location.href = './pages/login.html'
+        }).catch((error) => {
+          alert('sign up successful, without updating profile name')
+          location.href = './pages/login.html'
+        });
+
+  
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        alert(errorMessage)
+
+      });
+  }
+
+
+
+  // let firebase = {
+  //   auth: () => {
+  //     return {
+
+  //     }
+  //   }
+  // }
+
+
+  // let micheal = {
+  //   dance: function () {
+  //     return {
+  //       name: () => { return 'olamide' }
+  //     }
+  //   }
+  // }
+
+  // console.log(micheal.dance().name()); // {name : ()=> { return 'hello'}}
+
+
+</script>
