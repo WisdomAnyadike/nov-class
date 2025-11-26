@@ -8,12 +8,15 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" crossorigin="anonymous">
     <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-database-compat.js"></script>
     <style>
         :root {
             --bg: #f3f6fb;
             --card: #ffffff;
             --accent: #4f46e5;
             --muted: #6b7280;
+            --msg-bg: #eef2ff;
+            --my-msg-bg: #dbeafe;
         }
 
         * {
@@ -116,6 +119,87 @@
             color: var(--accent)
         }
 
+        /* Chat styles */
+        .chat {
+            display: flex;
+            flex-direction: column;
+            height: 550px;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.8));
+            border-radius: 10px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .msg {
+            max-width: 70%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: var(--msg-bg);
+            color: #06253a;
+            font-size: 14px;
+            box-shadow: 0 2px 6px rgba(2, 6, 23, 0.04);
+        }
+
+        .msg.me {
+            margin-left: auto;
+            background: var(--my-msg-bg);
+        }
+
+        .msg.other {
+            margin-right: auto;
+            background: var(--my-msg-bg);
+        }
+
+        .meta {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        .composer {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .composer input {
+            flex: 1;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #e6e9f2;
+            font-size: 14px;
+        }
+
+        .composer button {
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 0;
+            background: linear-gradient(90deg, var(--accent), #8b5cf6);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .chat-title {
+            font-weight: 700
+        }
+
         @media(max-width:780px) {
             .sidebar {
                 display: none
@@ -123,6 +207,10 @@
 
             body {
                 flex-direction: column
+            }
+
+            .chat {
+                height: 320px
             }
         }
     </style>
@@ -168,29 +256,64 @@
                 <div class="value">18</div>
             </div>
         </section>
-    </main>
 
+        <!-- Group chat card -->
+        <section class="card chat">
+            <div class="chat-header">
+                <div>
+                    <div class="chat-title">Group Chat</div>
+                    <div class="meta">Join the conversation — messages are synced across open tabs (no server).</div>
+                </div>
+                <div>
+                    <small class="muted">You are: <strong id="meName">...</strong></small>
+                </div>
+            </div>
+
+            <div id="messages" class="messages" aria-live="polite">
+
+
+
+                <!-- <p class="msg other">
+                    hello
+
+                </p> -->
+
+
+
+            </div>
+
+            <div class="composer">
+                <input id="messageInput" placeholder="Type a message and press Enter..." aria-label="Message input">
+                <button id="sendBtn" onclick="sendMessage()">Send</button>
+            </div>
+        </section>
+
+    </main>
 </body>
 
 </html>
+
 <script>
 
     const firebaseConfig = {
         apiKey: "AIzaSyBT-tIfLubzaOX9q3mxtiSof3slDbX8uFI",
         authDomain: "novapp-2fd93.firebaseapp.com",
+        databaseURL: "https://novapp-2fd93-default-rtdb.firebaseio.com",
         projectId: "novapp-2fd93",
         storageBucket: "novapp-2fd93.firebasestorage.app",
         messagingSenderId: "32318939482",
         appId: "1:32318939482:web:ff7bce9d14a938edadd363"
     };
-
     // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const database = firebase.database();
+    let chatIndex
+
 
 
     function checkUserAuth(params) {
-        firebase.auth().onAuthStateChanged((user) => {
+        auth.onAuthStateChanged((user) => {
             if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/v8/firebase.User
@@ -217,7 +340,7 @@
         let canUserLogOut = confirm('are you sure?')
 
         if (canUserLogOut) {
-            firebase.auth().signOut().then(() => {
+            auth.signOut().then(() => {
                 alert('log out successful')
                 location.href = 'login.html'
             }).catch((error) => {
@@ -229,8 +352,94 @@
     }
 
 
+    function sendMessage() {
+        let message = document.getElementById('messageInput').value.trim()
+        let user = firebase.auth().currentUser
+
+        if (!user) {
+            alert('unauthorised')
+            return
+        }
+
+
+        if (!message) {
+            alert('please attach a message')
+            return
+        }
+
+        if (isNaN(chatIndex) || chatIndex < 0) {
+            alert('please try again later')
+            return
+        }
+
+
+        database.ref(`chats/${chatIndex}`).set({
+            sender: user.displayName,
+            email: user.email,
+            time: new Date().toLocaleTimeString(),
+            message,
+            isDeleted: false
+        }).then(() => {
+            document.getElementById('messageInput').value = ''
+        }).catch((err) => {
+            alert(err.message)
+        })
+
+    }
+
+
+    function displaMessage() {
+        messages.innerHTML = 'loading...'
+        sendBtn.disabled = true
+
+
+        var allChats = database.ref('chats');
+        allChats.on('value', (snapshot) => {
+            const data = snapshot.val() || [];
+            console.log(data);
+            chatIndex = data.length
+            sendBtn.disabled = false
+            messages.innerHTML = ''
+            data.forEach((chatObj, i, arr) => {
+                let itsMyMessage = chatObj.sender === firebase.auth().currentUser.displayName
+                let designClass = itsMyMessage ? 'me' : 'other'
+
+
+                messages.innerHTML += ` <p ondblclick="deleteThis(${chatObj.isDeleted} , ${itsMyMessage} , ${i})"  class="msg ${designClass}"> <b> ${chatObj.sender}:  ${chatObj.isDeleted ? 'this message is deleted' : chatObj.message} </b>   <small> ${chatObj.time} </small>  </p>`
+            });
+
+        });
+    }
+
+    displaMessage()
 
 
 
+    function deleteThis(isDeleted, canDelete, index) {
+        if (isDeleted) {
+            alert('message already deleted')
+            return
+        }
+
+        if (!canDelete) {
+            alert('unathorized')
+            return
+        }
+
+        let proceedDelete = confirm('are you sure?')
+        if (proceedDelete) {
+            database.ref(`chats/${index}`).update(
+                {
+                    isDeleted: true
+                }
+            ).then(() => {
+
+            }).catch((err) => {
+                alert(err.message)
+            })
+
+        }
+
+    }
 
 </script>
