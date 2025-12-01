@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+</head>
+
+<body>
+
+    <form class="paystackForm">
+        <button> pay with paystack </button>
+    </form>
+
+</body>
+
+</html>
+<script>
+
+    let paystackForm = document.querySelector('.paystackForm')
+
+
+    paystackForm.addEventListener('submit', payWithPaystack)
+
+
+    function payWithPaystack(ev) {
+        ev.preventDefault()
+
+        const handler = PaystackPop.setup({
+            key: 'pk_test_9a558288d1670a641dafa6f4e899ddb24f2fe749',
+            email: email ,
+            amount: 23400 * 100 ,
+            callback: (transaction) => {
+                console.log(transaction);
+            },
+            onClose: () => {
+                console.log("please buy nowwwww");
+            },
+            onError: (error) => {
+                console.log("Error: ", error.message);
+            }
+        })
+
+        handler.openIframe()
+
+    }
+
+
+
+
+
+
+</script>

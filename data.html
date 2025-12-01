@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+
+    let date = new Date()
+    console.log(date);
+
+    console.log(date.toDateString());
+    console.log(date.toISOString());
+    console.log(date.toLocaleTimeString());
+
+
+    // 2025 - 11 - 27 - 10 : 54 AM 
+
+    function makeCustomersFormat(params) {
+        let date = new Date()
+        let year = date.getFullYear()
+        let month = date.getMonth() + 1
+        let day = date.getDate()
+        let hour = date.getHours()
+        let minutes = date.getMinutes()
+        let seconds = date.getSeconds()
+
+        function addZero(num) {
+            return num < 10 ? `0${num}` : num
+        }
+
+        return `${year} - ${month} - ${addZero(day)} - ${addZero(hour)}:${addZero(minutes)}:${addZero(seconds)}  ${hour < 12 ? 'AM' : 'PM'}`
+
+    }
+
+    console.log(makeCustomersFormat());
+
+    let timeDisplayer = setInterval(() => {
+        document.body.innerHTML = `<h1> ${makeCustomersFormat()} </h1>`
+    }, 1000);
+
+
+
+
+
+
+
+
+
+</script>

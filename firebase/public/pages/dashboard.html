@@ -403,9 +403,10 @@
             data.forEach((chatObj, i, arr) => {
                 let itsMyMessage = chatObj.sender === firebase.auth().currentUser.displayName
                 let designClass = itsMyMessage ? 'me' : 'other'
+                let editButton = itsMyMessage ? chatObj.isDeleted ? '' : `<button onclick="editMessage('${chatObj.message}' , ${i})"> edit </button>` : ''
 
 
-                messages.innerHTML += ` <p ondblclick="deleteThis(${chatObj.isDeleted} , ${itsMyMessage} , ${i})"  class="msg ${designClass}"> <b> ${chatObj.sender}:  ${chatObj.isDeleted ? 'this message is deleted' : chatObj.message} </b>   <small> ${chatObj.time} </small>  </p>`
+                messages.innerHTML += ` <p  ondblclick="deleteThis(${chatObj.isDeleted} , ${itsMyMessage} , ${i})"   class="msg ${designClass}"> <b> ${chatObj.sender}:  ${chatObj.isDeleted ? 'this message is deleted' : chatObj.message} </b>   <small> ${chatObj.time} </small>  ${editButton} </p>`
             });
 
         });
@@ -441,5 +442,66 @@
         }
 
     }
+
+
+
+    function editMessage(userMessage, index) {
+        let valueFromPrompt = prompt('Place your message here', userMessage)
+        if (!valueFromPrompt) {
+
+        } else if (valueFromPrompt.trim() === userMessage) {
+            alert('you cannot edit with same message')
+
+        } else if (!valueFromPrompt.trim()) {
+            alert('please add a message')
+
+        } else {
+            database.ref(`chats/${index}`).update({ message: valueFromPrompt }).then(() => {
+
+            }).catch((err) => {
+                alert(err.message)
+            })
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
+
+
+    function sayDavid() {
+        console.log('david')
+
+    }
+
+    let val = sayDavid()
+
+
+    function sayDaniel() {
+        return 'daniel'
+    }
+
+    let finalVal = sayDaniel()
+
+
+    function sayName(params = '') {
+        return params
+    }
+
+    let ans = sayName()
+
+
 
 </script>
